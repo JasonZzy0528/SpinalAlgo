@@ -1,9 +1,16 @@
+package Tests;
+
 /*
 * To change this license header, choose License Headers in Project Properties.
 * To change this template file, choose Tools | Templates
 * and open the template in the editor.
 */
 
+import Core.NeurologyForm;
+import Core.Algorithm;
+import Core.BinaryObservation;
+import Core.NeurologyFormTotalsSummary;
+import Core.NeurologyMusclePoints;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -196,13 +203,12 @@ public final class CalculateAlgorithmTests extends HttpServlet{
   JSONObject context = new JSONObject();
 
   public void setUpContext(String dbName, String driverName, String serverName, String port, String userName, String password) throws JSONException{
-      // set up required info before test
-    context.put("dbName", "spinal_test");
-    context.put("driverName", "com.mysql.jdbc.Driver");
-    context.put("serverName", "localhost");
-    context.put("port", "3306");
-    context.put("userName", "root");
-    context.put("password", "password");
+    context.put("dbName", dbName);
+    context.put("driverName", driverName);
+    context.put("serverName", serverName);
+    context.put("port", port);
+    context.put("userName", userName);
+    context.put("password", password);
   }
 
   public static NeurologyFormTotalsSummary doPostTestCalculate(JSONObject request) throws IOException, JSONException{

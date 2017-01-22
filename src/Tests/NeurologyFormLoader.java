@@ -1,3 +1,5 @@
+package Tests;
+
 /*
 * To change this license header, choose License Headers in Project Properties.
 * To change this template file, choose Tools | Templates
@@ -5,6 +7,12 @@
 */
 
 
+import Core.NeurologyFormTotals;
+import Core.NeurologyForm;
+import Core.NeurologyFormTotalsSummary;
+import Core.NeurologyFormLevel;
+import Core.BinaryObservation;
+import Core.Algorithm;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

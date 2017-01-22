@@ -1,3 +1,5 @@
+package Tests;
+
 
 
 /*
@@ -7,7 +9,11 @@
 */
 
 
-//import SpinalAlgo.Tests.NeurologyFormLoader;
+import Core.NeurologyForm;
+import Core.NeurologyFormTotalsSummary;
+import Core.NeurologyFormTotals;
+import Core.NeurologyFormLevel;
+import Core.Algorithm;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
@@ -78,23 +84,25 @@ public class AlgorithmTests {
 
   @Test
   public void RunAllTests(){
+    System.out.println("Running Neurology form totals tests for all xml.");
     try {
       ArrayList<File> files = new ArrayList<File>();
 
-      listf("test/Resources/isncsciTestCases/", files);
+      listf("src/Tests/Resources/isncsciTestCases/", files);
       for(File file: files){
+        System.out.println("Testing " + file);
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         Document doc = dBuilder.parse(file);
         doc.getDocumentElement().normalize();
         TestForm(NeurologyFormLoader.LoadNeurologyFormFrom(doc), NeurologyFormLoader.LoadNeurologyFormTotalsFrom(doc));
-
       }
-
     } catch (Exception e) {
       e.printStackTrace();
     }
+    System.out.println("Neurology form totals tests for all xml are done.");
   }
+  
   private static void listf(String directoryName, ArrayList<File> files) {
     File directory = new File(directoryName);
 
@@ -134,8 +142,9 @@ public class AlgorithmTests {
   @Test
   //Test summary for NtCase2
   public void CanGetTotalsSummaryForNtCase2(){
+    System.out.println("Running Neurology form totals summary for ISNCSCI NT Case 2.xml");
     try {
-      String filePath = "test/Resources/isncsciTestCases/NtCases/ISNCSCI NT Case 2.xml";
+      String filePath = "src/Tests/Resources/isncsciTestCases/NtCases/ISNCSCI NT Case 2.xml";
       File file = new File(filePath);
       DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
       DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -172,12 +181,14 @@ public class AlgorithmTests {
     }catch (Exception e) {
       e.printStackTrace();
     }
+    System.out.println("Neurology form totals summary for ISNCSCI NT Case 2.xml is done.");
   }
   @Test
   //Test summary for NtCase2
   public void CanGetTotalsSummaryForNtCase4(){
+     System.out.println("Running Neurology form totals summary for ISNCSCI NT Case 4.xml");
     try {
-      String filePath = "test/Resources/isncsciTestCases/NtCases/ISNCSCI NT Case 4.xml";
+      String filePath = "src/Tests/Resources/isncsciTestCases/NtCases/ISNCSCI NT Case 4.xml";
       File file = new File(filePath);
       DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
       DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -214,13 +225,15 @@ public class AlgorithmTests {
     }catch (Exception e) {
       e.printStackTrace();
     }
+    System.out.println("Neurology form totals summary for ISNCSCI NT Case 4.xml is done.");
   }
 
   @Test
   //Test click calculate btn and assert summary for NTCase4
   public void CalculateTestNTCase4(){
+      System.out.println("Running Neurology calculate test for ISNCSCI NT Case 4.xml");
     try {
-      String filePath = "test/Resources/isncsciTestCases/NtCases/ISNCSCI NT Case 4.xml";
+      String filePath = "src/Tests/Resources/isncsciTestCases/NtCases/ISNCSCI NT Case 4.xml";
       File file = new File(filePath);
       DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
       DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -259,13 +272,19 @@ public class AlgorithmTests {
     }catch (Exception e) {
       e.printStackTrace();
     }
+    System.out.println("Neurology calculate test for ISNCSCI NT Case 4.xml is done");
   }
 
   @Test
   // Test click save btn, save with or without modid
-  public void SaveToDBTest(String modid){
-    try {
-      String filePath = "test/Resources/isncsciTestCases/NtCases/ISNCSCI NT Case 4.xml";
+  public void SaveToDBTest(String modid, String dbName, String driverName, String serverName, String port, String userName, String password){
+    if(modid.equals("")){
+        System.out.println("Running update database test without modid for ISNCSCI NT Case 4.xml");
+    }else{
+      System.out.println("Running update database test with modid for ISNCSCI NT Case 4.xml");
+    }
+      try {
+      String filePath = "src/Tests/Resources/isncsciTestCases/NtCases/ISNCSCI NT Case 4.xml";
       File file = new File(filePath);
       Random rand = new Random();
       String pid = String.valueOf(rand.nextInt(10000));
@@ -275,29 +294,42 @@ public class AlgorithmTests {
       doc.getDocumentElement().normalize();
       JSONObject request = NeurologyFormLoader.LoadJSONFrom(doc);
       CalculateAlgorithmTests test = new CalculateAlgorithmTests();
-      // set up required info before test
-      String dbName = "spinal_test";
-      String driverName = "com.mysql.jdbc.Driver";
-      String serverName = "localhost";
-      String port = "3306";
-      String userName = "root";
-      String password = "password";
+
       test.setUpContext(dbName, driverName, serverName, port, userName, password);
       test.doPostTestSave(request, modid, pid);
 
     }catch (Exception e) {
       e.printStackTrace();
     }
+      System.out.println("Update database test for ISNCSCI NT Case 4.xml is done.");
   }
    public static void main(String [] args){
-     AlgorithmTests test = new AlgorithmTests();
-     test.CalculateTestNTCase4();
-     //test saveSpinalAlgoResult without modid
-     test.SaveToDBTest("");
-     //test saveSpinalAlgoResult with modid
-     test.SaveToDBTest("123");
-     test.RunAllTests();
-     test.CanGetTotalsSummaryForNtCase2();
-     test.CanGetTotalsSummaryForNtCase4();
+      String testDB = args[0];
+      // set up required info before test
+      String dbName = "spinal_test";
+      String driverName = "com.mysql.jdbc.Driver";
+      String serverName = "localhost";
+      String port = "3306";
+      String userName = "root";
+      String password = "jasonzzy101";
+       
+      
+      AlgorithmTests test = new AlgorithmTests();
+      test.RunAllTests();
+      System.out.println();
+      test.CanGetTotalsSummaryForNtCase2();
+      System.out.println();
+      test.CanGetTotalsSummaryForNtCase4();
+      System.out.println();
+      test.CalculateTestNTCase4();
+      System.out.println();
+      System.out.println("Test database update: " + testDB);
+      if(testDB.equals("YES")){
+          //test saveSpinalAlgoResult without modid
+          test.SaveToDBTest("", dbName, driverName, serverName, port, userName, password);
+          System.out.println();
+          //test saveSpinalAlgoResult with modid
+          test.SaveToDBTest("123", dbName, driverName, serverName, port, userName, password);
+      }
    }
 }
