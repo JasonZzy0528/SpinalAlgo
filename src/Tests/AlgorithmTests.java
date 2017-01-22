@@ -102,7 +102,7 @@ public class AlgorithmTests {
     }
     System.out.println("Neurology form totals tests for all xml are done.");
   }
-  
+
   private static void listf(String directoryName, ArrayList<File> files) {
     File directory = new File(directoryName);
 
@@ -311,9 +311,9 @@ public class AlgorithmTests {
       String serverName = "localhost";
       String port = "3306";
       String userName = "root";
-      String password = "jasonzzy101";
-       
-      
+      String password = "password";
+
+
       AlgorithmTests test = new AlgorithmTests();
       test.RunAllTests();
       System.out.println();
